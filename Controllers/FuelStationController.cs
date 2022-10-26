@@ -1,10 +1,12 @@
-﻿using equeue_server.Models;
+﻿/*
+* FuelStationController: class Implements ControllerBase: interface - fuel station routes and service mappings are managed 
+*/
+
+using equeue_server.Models;
 using equeue_server.Services;
 using Microsoft.AspNetCore.Mvc;
 
-/*
-* FuelStationController: class Implements ControllerBase: interface - fuel station routes and service mappings are managed 
-*/
+
 namespace equeue_server.Controllers
 {
     [Route("api/[controller]")]

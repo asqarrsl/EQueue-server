@@ -1,14 +1,12 @@
-﻿using System;
+﻿/*
+* UserService: class Implements IUserInterface: interface - user operations on database are managed
+*/
+
 using MongoDB.Driver;
 using equeue_server.Models;
-using equeue_server.Services;
 using equeue_server.Models.Database;
-using MongoDB.Bson;
-using System.Collections.Generic;
 
-/*
-* UserService: class Implements IUserInterface: interface - Manages user operations on database
-*/
+
 namespace equeue_server.Services
 {
     public class UserService : IUserService

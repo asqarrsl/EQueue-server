@@ -1,8 +1,9 @@
-﻿using equeue_server.Models;
-
-/*
-* IFuleStationService: interface - Interface for manage fuel station operations on database
+﻿/*
+* IFuleStationService: interface - Interface for managing fuel station operations on database
 */
+
+using equeue_server.Models;
+
 namespace equeue_server.Services
 {
     public interface IFuelStationService

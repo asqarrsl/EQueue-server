@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*
+* UserController: class Implements ControllerBase: interface - User routes and service mappings are managed 
+*/
+
+using Microsoft.AspNetCore.Mvc;
 using equeue_server.Models;
 using equeue_server.Services;
 
-/*
-* UserController: class Implements ControllerBase: interface - User routes and service mappings are managed 
-*/
+
 namespace MongoDBTestProject.Controllers
 {
     [Route("api/[controller]")]

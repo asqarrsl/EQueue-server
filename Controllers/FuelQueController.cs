@@ -1,19 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*
+* FuelQueueController: class Implements ControllerBase: interface - fuel queue routes and service mappings are managed 
+*/
+
+using Microsoft.AspNetCore.Mvc;
 using equeue_server.Models;
 using equeue_server.Services;
 
-/*
-* FuelQueueController: class Implements ControllerBase: interface - fuel queue routes and service mappings are managed 
-*/
+
 namespace equeue_server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FuelQueueController : ControllerBase
+    public class FuelQueController : ControllerBase
     {
-        private readonly IFuelQueueService fuelQueueService;
+        private readonly IFuelQueService fuelQueueService;
 
-        public FuelQueueController(IFuelQueueService fuelQueueService)
+        public FuelQueController(IFuelQueService fuelQueueService)
         {
             this.fuelQueueService = fuelQueueService;
         }
@@ -21,7 +23,7 @@ namespace equeue_server.Controllers
         // GET api/<UserController>
         // Get all fuel queues
         [HttpGet]
-        public ActionResult<List<FuelQueue>> Get()
+        public ActionResult<List<FuelQue>> Get()
         {
             return fuelQueueService.Get();
         }
@@ -29,7 +31,7 @@ namespace equeue_server.Controllers
         // GET api/<UserController>/3
         // Get fuel queue by id
         [HttpGet("{id}")]
-        public ActionResult<FuelQueue> Get(String id)
+        public ActionResult<FuelQue> Get(String id)
         {
             var fuelQueue = fuelQueueService.Get(id);
             if (fuelQueue == null)
@@ -43,7 +45,7 @@ namespace equeue_server.Controllers
         // POST api/<UserController>
         // Register fuel queue
         [HttpPost]
-        public ActionResult<FuelQueue> Post([FromBody] FuelQueue fuelQueue)
+        public ActionResult<FuelQue> Post([FromBody] FuelQue fuelQueue)
         {
             fuelQueueService.Create(fuelQueue);
             return CreatedAtAction(nameof(Get), new { id = fuelQueue.Id }, fuelQueue);
@@ -52,7 +54,7 @@ namespace equeue_server.Controllers
         // POST api/<UserController>/3
         // Join customer to fuel queue
         [HttpPost("/join/{id}")]
-        public ActionResult<FuelQueue> Post(string id, [FromBody] QueueCustomer queueCustomer)
+        public ActionResult<FuelQue> Post(string id, [FromBody] QueueCustomer queueCustomer)
         {
             bool isUpdated = fuelQueueService.AddUsersToQueue(queueCustomer, id);
 
@@ -62,7 +64,7 @@ namespace equeue_server.Controllers
         // PUT api/<UserController>/3
         // Leave customer from fuel queue
         [HttpPut("/leave/{id}")]
-        public ActionResult<FuelQueue> Put(string id, [FromBody] QueueCustomer queueCustomer)
+        public ActionResult<FuelQue> Put(string id, [FromBody] QueueCustomer queueCustomer)
         {
             bool isUpdated = fuelQueueService.RemoveUsersFromQueue(id, queueCustomer.UserId, queueCustomer.DetailedStatus);
 
@@ -72,7 +74,7 @@ namespace equeue_server.Controllers
         // PUT api/<UserController>
         // Update fuel queue by id
         [HttpPut("{id}")]
-        public ActionResult Put(String id, [FromBody] FuelQueue fuelQueue)
+        public ActionResult Put(String id, [FromBody] FuelQue fuelQueue)
         {
             var existingFuelQueue = fuelQueueService.Get(id);
 

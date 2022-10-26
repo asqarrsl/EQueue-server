@@ -1,10 +1,10 @@
-﻿using System;
+﻿/*
+* QueueCustomer: class - queue customer model in database is represented
+*/
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-/*
-* QueueCustomer: class - Represents queue customer model in database
-*/
 namespace equeue_server.Models
 {
     [BsonIgnoreExtraElements]
@@ -28,7 +28,7 @@ namespace equeue_server.Models
 
         [BsonElement("vehicleType")]
         public string VehicleType { get; set; } = String.Empty;
-        
+
         public QueueCustomer() {}
     }
 }

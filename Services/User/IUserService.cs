@@ -1,9 +1,9 @@
-﻿using System;
+﻿/*
+* IUserInterface: interface - Interface for managing user operations on database
+*/
+
 using equeue_server.Models;
 
-/*
-* IUserInterface: interface - Interface for manage user operations on database
-*/
 namespace equeue_server.Services
 {
     public interface IUserService

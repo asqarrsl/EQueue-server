@@ -1,8 +1,10 @@
-﻿using System;
-
-/*
-* IStoreDatabaseSettings: interface - Interfaces for manage database configs and collection names
+﻿/*
+* IStoreDatabaseSettings: interface - Interfaces for managing database configs and collection names
 */
+
+using System;
+
+
 namespace equeue_server.Models.Database
 {
     public interface IStoreDatabaseSettings
