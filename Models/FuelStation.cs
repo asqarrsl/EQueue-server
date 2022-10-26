@@ -14,14 +14,16 @@ namespace equeue_server.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = String.Empty;
 
-        [BsonElement("registrationNumber")]
-        public String RegistrationNumber { get; set; } = String.Empty;
 
         [BsonElement("name")]
         public string Name { get; set; } = String.Empty;
 
         [BsonElement("location")]
         public string Location { get; set; } = String.Empty;
+        
+        [BsonElement("registrationNumber")]
+        public String RegistrationNumber { get; set; } = String.Empty;
+
 
         [BsonElement("noPumps")]
         public String NoPumps { get; set; } = String.Empty;

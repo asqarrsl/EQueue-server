@@ -16,11 +16,6 @@ namespace equeue_server.Models
         [BsonElement("status")]
         public bool Status { get; set; } = true;
 
-        [BsonElement("detailedStatus")]
-        public string DetailedStatus { get; set; } = String.Empty;
-
-        [BsonElement("vehicleType")]
-        public string VehicleType { get; set; } = String.Empty;
 
         [BsonElement("enteredTime")]
         public string enteredTime { get; set; } = String.Empty;
@@ -28,6 +23,12 @@ namespace equeue_server.Models
         [BsonElement("exitedTime")]
         public string exitedTime { get; set; } = String.Empty;
 
+        [BsonElement("detailedStatus")]
+        public string DetailedStatus { get; set; } = String.Empty;
+
+        [BsonElement("vehicleType")]
+        public string VehicleType { get; set; } = String.Empty;
+        
         public QueueCustomer() {}
     }
 }

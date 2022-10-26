@@ -3,7 +3,7 @@ using equeue_server.Services;
 using Microsoft.AspNetCore.Mvc;
 
 /*
-* FuelStationController: class Implements ControllerBase: interface - Manages fuel station routes and service mappings
+* FuelStationController: class Implements ControllerBase: interface - fuel station routes and service mappings are managed 
 */
 namespace equeue_server.Controllers
 {
@@ -18,16 +18,16 @@ namespace equeue_server.Controllers
             this.fuelStationService = fuelStationService;
         }
 
+        // Get all fuel stations
         // GET: api/<FuelStationController>
-        // Handles - Get all fuel stations
         [HttpGet]
         public ActionResult<List<FuelStation>> Get()
         {
             return fuelStationService.Get();
         }
 
-        // GET api/<FuelStationController>/5
-        // Handles - Get fuel station for given fuel station id
+        // Get fuel station by id
+        // GET api/<FuelStationController>/3
         [HttpGet("{id}")]
         public ActionResult<FuelStation> Get(String id)
         {
@@ -40,8 +40,8 @@ namespace equeue_server.Controllers
             return fuelStation;
         }
 
+        // Register fuel station
         // POST api/<FuelStationController>
-        // Handles - Register fuel station
         [HttpPost]
         public ActionResult<FuelStation> Post([FromBody] FuelStation fuelStation)
         {
@@ -49,8 +49,8 @@ namespace equeue_server.Controllers
             return CreatedAtAction(nameof(Get), new { id = fuelStation.Id }, fuelStation);
         }
 
-        // PUT api/<FuelStationController>/5
-        // Handles - Update fuel station for gievn fuel station id
+        // Update fuel station by id
+        // PUT api/<FuelStationController>/3
         [HttpPut("{id}")]
         public ActionResult Put(String id, [FromBody] FuelStation fuelStation)
         {
@@ -66,8 +66,8 @@ namespace equeue_server.Controllers
             return NoContent();
         }
 
-        // DELETE api/<FuelStationController>/5
-        // Handles - Delete fuel station for given fuel station id
+        // Delete fuel station by id
+        // DELETE api/<FuelStationController>/3
         [HttpDelete("{id}")]
         public ActionResult Delete(String id)
         {
