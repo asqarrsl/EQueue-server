@@ -15,6 +15,7 @@ namespace equeue_server.Models
         [BsonElement("fuelStationId")]
         public string FuelStationId { get; set; } = String.Empty;
 
+
         [BsonElement("numberOfVehicles")]
         public int NumberOfVehicles { get; set; } = 0;
 
