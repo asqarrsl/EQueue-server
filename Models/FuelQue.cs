@@ -2,11 +2,11 @@
 using MongoDB.Bson.Serialization.Attributes;
 
 /*
-* FuelQueue: class - Represents fuel queue model in database
+* FuelQue: class - Represents fuel queue model in database
 */
 namespace equeue_server.Models
 {
-    public class FuelQueue
+    public class FuelQue
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -21,6 +21,6 @@ namespace equeue_server.Models
         [BsonElement("customers")]
         public QueueCustomer[] Customers { get; set; } = Array.Empty<QueueCustomer>();
 
-        public FuelQueue() {}
+        public FuelQue() {}
     }
 }
