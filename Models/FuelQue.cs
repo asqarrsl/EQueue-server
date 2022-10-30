@@ -1,5 +1,5 @@
 ﻿/*
-* FuelQueue: class -  fuel queue model in database is represented
+* FuelQue: class -  fuel queue model in database is represented
 */
 
 using MongoDB.Bson;

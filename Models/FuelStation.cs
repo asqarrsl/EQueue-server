@@ -1,11 +1,10 @@
-﻿/*
-* FuelStation: class -  fuel station model in database is represented
-*/
-
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using MongoDB.Bson;
 
-
+/*
+* FuelStation: class - Represents fuel station model in database
+*/
 namespace equeue_server.Models
 {
     [BsonIgnoreExtraElements]
@@ -15,16 +14,17 @@ namespace equeue_server.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = String.Empty;
 
+        [BsonElement("registrationNumber")]
+        public String RegistrationNumber { get; set; } = String.Empty;
+
+        [BsonElement("ownerId")]
+        public string OwnerId { get; set; } = String.Empty;
 
         [BsonElement("name")]
         public string Name { get; set; } = String.Empty;
 
         [BsonElement("location")]
         public string Location { get; set; } = String.Empty;
-
-        [BsonElement("registrationNumber")]
-        public String RegistrationNumber { get; set; } = String.Empty;
-
 
         [BsonElement("noPumps")]
         public String NoPumps { get; set; } = String.Empty;

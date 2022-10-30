@@ -1,12 +1,10 @@
-﻿/*
-* UserController: class Implements ControllerBase: interface - User routes and service mappings are managed 
-*/
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using equeue_server.Models;
 using equeue_server.Services;
 
-
+/*
+* UserController: class Implements ControllerBase: interface - Manages user routes and service mappings
+*/
 namespace MongoDBTestProject.Controllers
 {
     [Route("api/[controller]")]
@@ -20,16 +18,16 @@ namespace MongoDBTestProject.Controllers
             this.userService = userService;
         }
 
-        // Get all users
         // GET api/<UserController>
+        // Handles - Get all users
         [HttpGet]
         public ActionResult<List<User>> Get()
         {
             return userService.Get();
         }
 
-        // Get user by id
-        // GET api/<UserController>/3
+        // GET api/<UserController>/5
+        // Handles - Get user for given user id
         [HttpGet("{id}")]
         public ActionResult<User> Get(String id)
         {
@@ -42,8 +40,8 @@ namespace MongoDBTestProject.Controllers
             return user;
         }
 
-        // User Registration 
         // POST api/<UserController>
+        // Handles - Register user
         [HttpPost]
         public ActionResult<User> Post([FromBody] User user)
         {
@@ -51,44 +49,8 @@ namespace MongoDBTestProject.Controllers
             return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
         }
 
-       
-        // Update user by id
-        // PUT api/<UserController>/3
-        [HttpPut("{id}")]
-        public ActionResult Put(String id, [FromBody] User user)
-        {
-
-            var existingUser = userService.Get(id);
-            
-            if (existingUser == null)
-            {
-                return NotFound($"User with Id = {id} not found");
-            }
-
-            userService.Update(id, user);
-
-            return NoContent();
-        }
-
-        // Delete user by id
-        // DELETE api/<StudentController>/3
-        [HttpDelete("{id}")]
-        public ActionResult Delete(String id)
-        {
-            var user = userService.Get(id);
-
-            if (user == null)
-            {
-                return NotFound($"User with Id, {id} not found");
-            }
-
-            userService.Delete(user.Id);
-
-            return Ok($"User with Id, {id} deleted");
-        }
-
-         // User Login
         // POST api/<UserController>
+        // Handles - Login user
         [HttpPost("login")]
         public ActionResult<User> Login([FromBody] User request)
         {
@@ -107,6 +69,40 @@ namespace MongoDBTestProject.Controllers
 
             return Ok(existingUser);
         }
+
+        // PUT api/<UserController>/5
+        // Handles - Update user for gievn user id
+        [HttpPut("{id}")]
+        public ActionResult Put(String id, [FromBody] User user)
+        {
+
+            var existingUser = userService.Get(id);
+            
+            if (existingUser == null)
+            {
+                return NotFound($"User with Id = {id} not found");
+            }
+
+            userService.Update(id, user);
+
+            return NoContent();
+        }
+
+        // DELETE api/<StudentController>/5
+        // Handles - Delete user for given user id
+        [HttpDelete("{id}")]
+        public ActionResult Delete(String id)
+        {
+            var user = userService.Get(id);
+
+            if (user == null)
+            {
+                return NotFound($"User with Id = {id} not found");
+            }
+
+            userService.Delete(user.Id);
+
+            return Ok(user);
+        }
     }
-    
 }

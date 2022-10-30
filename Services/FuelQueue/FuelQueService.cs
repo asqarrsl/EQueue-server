@@ -1,24 +1,24 @@
-﻿/*
-* FuelQueueService: class Implements IFuelQueueService: interface - fuel queue operations on database are managed
-*/
-
+﻿using System;
 using equeue_server.Models.Database;
+using equeue_server.Services;
 using equeue_server.Models;
 using MongoDB.Driver;
 
-
+/*
+* FuelQueService: class Implements IFuelQueService: interface - Manages fuel queue operations on database
+*/
 namespace equeue_server.Services
 {
     public class FuelQueService : IFuelQueService
     {
         // variable to hold mongodb collection
-        private readonly IMongoCollection<FuelQue> _fuelQue;
+        private readonly IMongoCollection<FuelQue> _FuelQue;
 
-        // constructor - retrives collections and assign collection to _fuelQue
+        // constructor - retrives collections and assign collection to _FuelQue
         public FuelQueService(IStoreDatabaseSettings settings, IMongoClient mongoClient)
         {
-            var db = mongoClient.GetDatabase(settings.DatabaseName);
-            _fuelQue = db.GetCollection<FuelQue>(settings.FuelQueueCollectionName);
+            var database = mongoClient.GetDatabase(settings.DatabaseName);
+            _FuelQue = database.GetCollection<FuelQue>(settings.FuelQueCollectionName);
         }
 
         /*
@@ -33,24 +33,24 @@ namespace equeue_server.Services
             queueCustomer.enteredTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
             queueCustomer.exitedTime = "";
 
-            // Filtering fuelQueue using fuel station id
+            // Filtering FuelQue using fuel station id
             var fuelStationFilter = Builders<FuelQue>
              .Filter.Eq(e => e.FuelStationId, fuelStation);
 
             // Pushing queue customer to the customers array
-            var fuelQueueUpdate = Builders<FuelQue>.Update
+            var FuelQueUpdate = Builders<FuelQue>.Update
                     .Push(e => e.Customers, queueCustomer);
 
             // Incrementing total number of vehicles in the queue
-            var fuelQueueIncrementUpdate = Builders<FuelQue>.Update
+            var FuelQueIncrementUpdate = Builders<FuelQue>.Update
                     .Inc(e => e.NumberOfVehicles, 1);
 
             // Commiting updates to database
-            var fuelQueueUpdateResult = _fuelQue.UpdateOne(fuelStationFilter, fuelQueueUpdate);
-            var incrementUpdateResult = _fuelQue.UpdateOne(fuelStationFilter, fuelQueueIncrementUpdate);
+            var FuelQueUpdateResult = _FuelQue.UpdateOne(fuelStationFilter, FuelQueUpdate);
+            var incrementUpdateResult = _FuelQue.UpdateOne(fuelStationFilter, FuelQueIncrementUpdate);
 
             // Return update status
-            if (fuelQueueUpdateResult == null || incrementUpdateResult == null) {
+            if (FuelQueUpdateResult == null || incrementUpdateResult == null) {
                 return false;
             }
 
@@ -68,10 +68,10 @@ namespace equeue_server.Services
         public bool RemoveUsersFromQueue(string fuelStation, string customer, string detailedStatus)
         {
             // Finding fuel queue using fuel station id
-            var fuelQueue = _fuelQue.Find(fuelQueue => fuelQueue.FuelStationId == fuelStation).FirstOrDefault();
+            var FuelQue = _FuelQue.Find(FuelQue => FuelQue.FuelStationId == fuelStation).FirstOrDefault();
 
             // Making customers list in the fuel queue
-            List<QueueCustomer> queueCustomers = fuelQueue.Customers.ToList();
+            List<QueueCustomer> queueCustomers = FuelQue.Customers.ToList();
 
             // Updating status and exited time using vehicle owner id
             foreach (QueueCustomer queueCustomer in queueCustomers)
@@ -84,24 +84,24 @@ namespace equeue_server.Services
                 }
             }
 
-            // Filtering fuelQueue using fuel station id
+            // Filtering FuelQue using fuel station id
             var fuelStationFilter = Builders<FuelQue>
              .Filter.Eq(e => e.FuelStationId, fuelStation);
 
             // Setting queue customers array
-            var fuelQueueUpdate = Builders<FuelQue>.Update.Set("customers", queueCustomers);
+            var FuelQueUpdate = Builders<FuelQue>.Update.Set("customers", queueCustomers);
 
             // Decrementing total number of vehicles in the queue
-            var fuelQueueDecrementUpdate = Builders<FuelQue>.Update
+            var FuelQueDecrementUpdate = Builders<FuelQue>.Update
                    .Inc(e => e.NumberOfVehicles, -1);
 
             // Commiting updates to database
-            var fuelQueueUpdateResult = _fuelQue.UpdateOne(Builders<FuelQue>
-             .Filter.Eq(e => e.FuelStationId, fuelStation), fuelQueueUpdate);
-            var decrementUpdateResult = _fuelQue.UpdateOne(fuelStationFilter, fuelQueueDecrementUpdate);
+            var FuelQueUpdateResult = _FuelQue.UpdateOne(Builders<FuelQue>
+             .Filter.Eq(e => e.FuelStationId, fuelStation), FuelQueUpdate);
+            var decrementUpdateResult = _FuelQue.UpdateOne(fuelStationFilter, FuelQueDecrementUpdate);
 
             // Return update status
-            if (fuelQueueUpdateResult == null || decrementUpdateResult == null)
+            if (FuelQueUpdateResult == null || decrementUpdateResult == null)
             {
                 return false;
             }
@@ -111,13 +111,13 @@ namespace equeue_server.Services
 
         /*
          * Function - Register fuel queue to the fuel station
-         * Params - fuelQueue(FuelQueue) - FuelQueue object to register
-         * Returns - registered fuel queue(FuelQueue)
+         * Params - FuelQue(FuelQue) - FuelQue object to register
+         * Returns - registered fuel queue(FuelQue)
          */
-        public FuelQue Create(FuelQue fuelQueue)
+        public FuelQue Create(FuelQue FuelQue)
         {
-            _fuelQue.InsertOne(fuelQueue);
-            return fuelQueue;
+            _FuelQue.InsertOne(FuelQue);
+            return FuelQue;
         }
 
         /*
@@ -127,37 +127,47 @@ namespace equeue_server.Services
         */
         public void Delete(string id)
         {
-            _fuelQue.DeleteOne(fuelQueue => fuelQueue.Id == id);
+            _FuelQue.DeleteOne(FuelQue => FuelQue.Id == id);
         }
 
         /*
         * Function - Retrieving fuel queues
         * Params - no params
-        * Returns - List<FuelQueue> list of fuel queue objects
+        * Returns - List<FuelQue> list of fuel queue objects
         */
         public List<FuelQue> Get()
         {
-            return _fuelQue.Find(fuelQueue => true).ToList();
+            return _FuelQue.Find(FuelQue => true).ToList();
         }
 
         /*
         * Function - Retrieving fuel queue
         * Params - id(string) - fuel queue id to retrive
-        * Returns - FuelQueue fuelQueue object associated with id
+        * Returns - FuelQue FuelQue object associated with id
         */
         public FuelQue Get(string id)
         {
-            return _fuelQue.Find(fuelQueue => fuelQueue.Id == id).FirstOrDefault();
+            return _FuelQue.Find(FuelQue => FuelQue.Id == id).FirstOrDefault();
+        }
+
+        /*
+        * Function - Retrieving fuel queue by fuel station id
+        * Params - id(string) - fuel station id to retrive
+        * Returns - FuelQue FuelQue object associated with id
+        */
+        public FuelQue GetFuelQueByFuelStationId(string id)
+        {
+            return _FuelQue.Find(FuelQue => FuelQue.FuelStationId == id).FirstOrDefault();
         }
 
         /*
         * Function - Updating fuel queue
         * Params - id(string) - fuel queue id to retrive
-        * Returns - FuelQueue fuel queue object associated with id
+        * Returns - FuelQue fuel queue object associated with id
         */
-        public void Update(string id, FuelQue fuelQueue)
+        public void Update(string id, FuelQue FuelQue)
         {
-            _fuelQue.ReplaceOne(fuelQueue => fuelQueue.Id == id, fuelQueue);
+            _FuelQue.ReplaceOne(FuelQue => FuelQue.Id == id, FuelQue);
         }
     }
 }

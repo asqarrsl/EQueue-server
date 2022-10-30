@@ -11,7 +11,7 @@ namespace equeue_server.Models.Database
     {
         string UserCollectionName { get; set; }
         string StationCollectionName { get; set; }
-        string FuelQueueCollectionName { get; set; }
+        string FuelQueCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

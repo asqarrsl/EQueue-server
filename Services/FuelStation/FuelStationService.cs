@@ -1,12 +1,11 @@
-﻿/*
-* FuleStationService: class Implements IFuleStationService: interface - fuel station operations on database are managed
-*/
-
-using equeue_server.Models;
+﻿using equeue_server.Models;
 using equeue_server.Models.Database;
 using MongoDB.Driver;
+using static System.Collections.Specialized.BitVector32;
 
-
+/*
+* FuleStationService: class Implements IFuleStationService: interface - Manages fuel station operations on database
+*/
 namespace equeue_server.Services
 {
     public class FuelStationService : IFuelStationService
@@ -51,6 +50,17 @@ namespace equeue_server.Services
         {
             return _fuelStation.Find(fuelStation => true).ToList();
         }
+
+        /*
+        * Function - Retrieving fuel stations of owner
+        * Params - id(string) - owner id to retrive
+        * Returns - List<FuelStation> list of fuel queue objects of certain owner
+        */
+        List<FuelStation> IFuelStationService.GetOwnerStations(string id)
+        {
+            return _fuelStation.Find(fuelStation => fuelStation.OwnerId == id).ToList();
+        }
+
 
         /*
         * Function - Retrieving fuel station
