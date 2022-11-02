@@ -68,8 +68,9 @@ namespace equeue_server.Controllers
         [HttpPost("join/{id}")]
         public ActionResult<FuelQue> Join(string id, [FromBody] QueueCustomer queueCustomer)
         {
+            Console.Write(queueCustomer);
             bool isUpdated = fuelQueService.AddUsersToQueue(queueCustomer, id);
-
+            
             return CreatedAtAction(nameof(Get), new { status = isUpdated }, queueCustomer);
         }
 
@@ -89,7 +90,6 @@ namespace equeue_server.Controllers
         public ActionResult Put(String id, [FromBody] FuelQue fuelQue)
         {
             var existingFuelQue = fuelQueService.Get(id);
-
             if (existingFuelQue == null)
             {
                 return NotFound($"FuelQue with Id = {id} not found");
