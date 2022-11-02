@@ -11,11 +11,11 @@ namespace equeue_server.Controllers
     [ApiController]
     public class FuelQueController : ControllerBase
     {
-        private readonly IFuelQueService FuelQueService;
+        private readonly IFuelQueService fuelQueService;
 
-        public FuelQueController(IFuelQueService FuelQueService)
+        public FuelQueController(IFuelQueService fuelQueService)
         {
-            this.FuelQueService = FuelQueService;
+            this.fuelQueService = fuelQueService;
         }
 
         // GET api/<UserController>
@@ -23,7 +23,7 @@ namespace equeue_server.Controllers
         [HttpGet]
         public ActionResult<List<FuelQue>> Get()
         {
-            return FuelQueService.Get();
+            return fuelQueService.Get();
         }
 
         // GET api/<UserController>/5
@@ -31,13 +31,13 @@ namespace equeue_server.Controllers
         [HttpGet("{id}")]
         public ActionResult<FuelQue> Get(String id)
         {
-            var FuelQue = FuelQueService.Get(id);
-            if (FuelQue == null)
+            var fuelQue = fuelQueService.Get(id);
+            if (fuelQue == null)
             {
                 return NotFound($"FuelQue with Id = {id} not found");
             }
 
-            return FuelQue;
+            return fuelQue;
         }
 
         // GET api/<UserController>/5
@@ -45,22 +45,22 @@ namespace equeue_server.Controllers
         [HttpGet("fuel-station/{id}")]
         public ActionResult<FuelQue> GetFuelQueByFuelStationId(String id)
         {
-            var FuelQue = FuelQueService.GetFuelQueByFuelStationId(id);
-            if (FuelQue == null)
+            var fuelQue = fuelQueService.GetFuelQueByFuelStationId(id);
+            if (fuelQue == null)
             {
                 return NotFound($"FuelQue with Station Id = {id} not found");
             }
 
-            return FuelQue;
+            return fuelQue;
         }
 
         // POST api/<UserController>
         // Handles - Register fuel queue
         [HttpPost]
-        public ActionResult<FuelQue> Post([FromBody] FuelQue FuelQue)
+        public ActionResult<FuelQue> Post([FromBody] FuelQue fuelQue)
         {
-            FuelQueService.Create(FuelQue);
-            return CreatedAtAction(nameof(Get), new { id = FuelQue.Id }, FuelQue);
+            fuelQueService.Create(fuelQue);
+            return CreatedAtAction(nameof(Get), new { id = fuelQue.Id }, fuelQue);
         }
 
         // POST api/<UserController>/5
@@ -68,7 +68,7 @@ namespace equeue_server.Controllers
         [HttpPost("join/{id}")]
         public ActionResult<FuelQue> Join(string id, [FromBody] QueueCustomer queueCustomer)
         {
-            bool isUpdated = FuelQueService.AddUsersToQueue(queueCustomer, id);
+            bool isUpdated = fuelQueService.AddUsersToQueue(queueCustomer, id);
 
             return CreatedAtAction(nameof(Get), new { status = isUpdated }, queueCustomer);
         }
@@ -78,7 +78,7 @@ namespace equeue_server.Controllers
         [HttpPut("leave/{id}")]
         public ActionResult<FuelQue> Leave(string id, [FromBody] QueueCustomer queueCustomer)
         {
-            bool isUpdated = FuelQueService.RemoveUsersFromQueue(id, queueCustomer.UserId, queueCustomer.DetailedStatus);
+            bool isUpdated = fuelQueService.RemoveUsersFromQueue(id, queueCustomer.UserId, queueCustomer.DetailedStatus);
 
             return CreatedAtAction(nameof(Get), new { status = isUpdated }, queueCustomer);
         }
@@ -86,16 +86,16 @@ namespace equeue_server.Controllers
         // PUT api/<UserController>
         // Handles - Update fuel queue for gievn fuel queue id
         [HttpPut("{id}")]
-        public ActionResult Put(String id, [FromBody] FuelQue FuelQue)
+        public ActionResult Put(String id, [FromBody] FuelQue fuelQue)
         {
-            var existingFuelQue = FuelQueService.Get(id);
+            var existingFuelQue = fuelQueService.Get(id);
 
             if (existingFuelQue == null)
             {
                 return NotFound($"FuelQue with Id = {id} not found");
             }
 
-            FuelQueService.Update(id, FuelQue);
+            fuelQueService.Update(id, fuelQue);
 
             return NoContent();
         }
@@ -106,14 +106,14 @@ namespace equeue_server.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(String id)
         {
-            var FuelQue = FuelQueService.Get(id);
+            var fuelQue = fuelQueService.Get(id);
 
-            if (FuelQue == null)
+            if (fuelQue == null)
             {
                 return NotFound($"FuelQue with Id = {id} not found");
             }
 
-            FuelQueService.Delete(FuelQue.Id);
+            fuelQueService.Delete(fuelQue.Id);
 
             return Ok($"FuelQue with Id = {id} deleted");
         }
